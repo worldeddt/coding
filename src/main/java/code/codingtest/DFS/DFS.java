@@ -4,7 +4,6 @@ public class DFS {
     static int n;
     static int[] ch;
     public DFS() {
-        ;
         n = 3;
         ch = new int[n+1];
         doDFS(1);
