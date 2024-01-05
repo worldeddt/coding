@@ -23,34 +23,60 @@ public class TheLargestNumber {
         Scanner kb = new Scanner(System.in);
 
         Integer n = kb.nextInt();
-        Integer[] arr = new Integer[n];
+        int[] arr = new int[n];
         for (int i = 0; i< n; i++) {
             arr[i] = kb.nextInt();
         }
 
-        List<Integer> list1 = new ArrayList<>(Arrays.asList(arr));
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentPermutation = new ArrayList<>();
+        boolean[] used = new boolean[arr.length];
 
-        Integer count = 0;
-        while(count <= list1.size()) {
-            theLargestNumber.solve(list1);
-            count++;
+        solve(arr, used, currentPermutation, result);
+        String response = "0";
+
+        for (List<Integer> re : result) {
+            String answer = "";
+            for (Integer pro : re) {
+                answer += pro.toString();
+            }
+
+            if (Integer.parseInt(answer) >  Integer.parseInt(response)) {
+                 response = answer;
+            }
         }
-        log.info("the answer : {}", temp);
+
+        log.info("result : {}", response);
     }
 
 //    [3, 30, 34, 5, 9]
-    private void solve(List<Integer> list) {
-        answer = "";
+    static void solve(int[] nums, boolean[] used,
+                       List<Integer> currentPermutation, List<List<Integer>> result) {
 
-        for (int i = 0; i < list.size() ; i++) {
-            answer = answer+String.valueOf(list.get(i));
+        // 2 일때,
+        if (currentPermutation.size() == nums.length) {
+            result.add(new ArrayList<>(currentPermutation));
+            return;
         }
 
-        log.info("answer : {}, temp : {}", answer, temp);
-        list.add(list.get(0));
-        list.remove(0);
-        if (Integer.valueOf(answer) > Integer.valueOf(temp)) {
-            temp = answer;
+        for( int i = 0; i<nums.length; i++) {
+            if (used[i]) continue;
+
+            used[i] = true;
+            currentPermutation.add(nums[i]);//6, 10, 2
+            printCurrent(currentPermutation);
+            solve(nums, used, currentPermutation, result);
+            used[i] = false;//2, 10, 6
+            currentPermutation.remove(currentPermutation.size() - 1); // 끝에서부터 제거
         }
+    }
+
+    static void printCurrent(List<Integer> current) {
+        String result = "";
+        for (Integer num : current) {
+            result += num.toString();
+        }
+
+        log.info("current combination : {}", result);
     }
 }
