@@ -25,20 +25,20 @@ public class Application {
 
          while (!queue.isEmpty()) {
              int size = queue.size();
-
              System.out.printf(L+" : ");
-             Node cur = queue.poll();
              for (int i = 0; i < size; i++) {
-                 NOde cur == queueu.poll
-                 cur = cur.lt;
-                 if (cur.lt == null) {
+                 Node cur = queue.poll();
+                 System.out.printf(cur.value+" ");
+                 if (cur.lt != null) {
                      queue.offer(cur.lt);
                  }
 
-                 if (cur.rt == null) {
+                 if (cur.rt != null) {
                      queue.offer(cur.rt);
                  }
              }
+             L++;
+             System.out.println();
          }
      }
 }
