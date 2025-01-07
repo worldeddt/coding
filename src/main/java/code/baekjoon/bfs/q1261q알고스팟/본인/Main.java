@@ -1,4 +1,4 @@
-package code.baekjoon.bfs.q1261q알고스팟;
+package code.baekjoon.bfs.q1261q알고스팟.본인;
 
 
 import java.util.LinkedList;
@@ -10,20 +10,44 @@ public class Main {
 
     static int N,M;
     static boolean[][] visited;
+    static int[][] distance;
     static int[] dx = {0,0,1,-1};
     static int[] dy = {1,-1,0,0};
     static int[][] board;
+
+    /**
+     3
+     3
+     0
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     0
+     6 6
+     0 0 1 1 1 1
+     0 1 0 0 0 0
+     0 0 1 1 1 1
+     1 1 0 0 0 1
+     0 1 1 0 1 0
+     1 0 0 0 1 0
+     */
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         N = sc.nextInt();
         M = sc.nextInt();
-        board = new int[N][M];
-        visited = new boolean[N][M];
+        board = new int[N+1][M+1];
+        visited = new boolean[N+1][M+1];
 
-        for (int i = 0; i< N; i++) {
-            for (int j = 0; j< M; j++) {
+        board[0][0] = 1;
+
+        for (int i = 1; i<= N; i++) {
+            for (int j = 1; j <= M; j++) {
                 board[i][j] = sc.nextInt();
             }
         }
@@ -37,11 +61,12 @@ public class Main {
         Queue<Point> points = new LinkedList<>();
 
         int brokenWall = 0;
+        points.offer(new Point(x, y));
 
         while (!points.isEmpty()) {
             Point p = points.poll();
 
-            for (int i = 1; i <= 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 int nx = p.x + dx[i];
                 int ny = p.y + dy[i];
 
