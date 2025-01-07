@@ -26,72 +26,74 @@ public class Application {
             }
         }
 
-        int days = 0; // 인구 이동 발생 일수.
+        int days = 0;  // 인구 이동 발생 일수
 
-        //방문 시작
-        while(true) {
+        while (true) {
             visited = new boolean[N][N];
-            boolean moved = false;
+            boolean moved = false; // 하루 동안 인구 이동 발생 여부 체크
 
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
+                    // 방문하지 않은 국가에 대해 BFS 수행
                     if (!visited[i][j]) {
-                        if (search(i,j)) {
+                        List<int[]> union = bfs(i, j); // 연합 찾기
+
+                        // 연합이 2개 이상이어야 인구 이동 발생
+                        if (union.size() > 1) {
                             moved = true;
+                            int totalPopulation = 0;
+                            for (int[] country : union) {
+                                totalPopulation += population[country[0]][country[1]];
+                            }
+                            int averagePopulation = totalPopulation / union.size();
+
+                            // 인구 재배치
+                            for (int[] country : union) {
+                                population[country[0]][country[1]] = averagePopulation;
+                            }
                         }
                     }
                 }
             }
 
+            // 인구 이동이 발생하지 않았다면 종료
             if (!moved) break;
-            days++;
+            days++; // 하루 증가
         }
 
         System.out.println(days);
     }
 
-    public static boolean search(int x, int y) {
-        Queue<int[]> nations = new LinkedList<>();
+    // BFS를 사용하여 연합을 찾고, 해당 연합을 반환하는 메서드
+    private static List<int[]> bfs(int x, int y) {
+        Queue<int[]> queue = new LinkedList<>();
         List<int[]> union = new ArrayList<>();
 
-        nations.offer(new int[]{x, y});
+        queue.add(new int[]{x, y});
         union.add(new int[]{x, y});
         visited[x][y] = true;
-        int totalPopulation = population[x][y];
 
-        while(!nations.isEmpty()) {
-            int[] current = nations.poll();
-            int cx = current[0], cy = current[1];
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int cx = current[0];
+            int cy = current[1];
 
-            for(int i=0; i<4; i++) {
-                int nx = cx + dx[i];
-                int ny = cy + dy[i];
+            // 4방향 탐색
+            for (int d = 0; d < 4; d++) {
+                int nx = cx + dx[d];
+                int ny = cy + dy[d];
 
                 if (nx >= 0 && ny >= 0 && nx < N && ny < N && !visited[nx][ny]) {
-                    int diffPopulation = Math.abs(population[cx][cy] - population[nx][ny]);
-
-                    // 국경선을 열어야 한다.
-                    if (diffPopulation >= L && diffPopulation <= R) {
+                    int diff = Math.abs(population[cx][cy] - population[nx][ny]);
+                    if (diff >= L && diff <= R) {
                         visited[nx][ny] = true;
-                        nations.offer(new int[]{nx, ny});
+                        queue.add(new int[]{nx, ny});
                         union.add(new int[]{nx, ny});
-                        totalPopulation += population[nx][ny];
                     }
                 }
             }
         }
-
-        if (union.size() == 1) {
-            return false;
-        }
-
-        int averagePopulation = totalPopulation / N;
-
-        for (int[] coord: union) {
-            population[coord[0]][coord[1]] = averagePopulation;
-        }
-
-        return true;
+        return union;
     }
 
 }
