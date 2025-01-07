@@ -53,7 +53,7 @@ public class Main {
 
                 if (nx2 < H && nx2 > 0 && ny2 < W && ny2 > 0 && !visited[nx2][ny2]) {
                     visited[nx][ny] = true;
-                    group++;
+                    if (map[nx2][ny2] == '#') group++;
 //                    if (map[nx2 - 1][ny2 - 1] == '#' && map[nx2][ny2] == '#') {
 //
 //                    }
