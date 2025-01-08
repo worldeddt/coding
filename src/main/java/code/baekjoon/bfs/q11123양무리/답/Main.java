@@ -2,6 +2,21 @@ package code.baekjoon.bfs.q11123양무리.답;
 
 import java.util.*;
 
+/*
+https://www.acmicpc.net/problem/11123
+
+2
+4 4
+#.#.
+.#.#
+#.##
+.#.#
+3 5
+###.#
+..#..
+#.###
+ */
+
 public class Main {
     static int H, W; // 그리드의 높이와 너비
     static char[][] grid; // 양과 풀의 상태 저장
