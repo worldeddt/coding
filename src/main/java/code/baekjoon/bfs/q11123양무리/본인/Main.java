@@ -1,4 +1,4 @@
-package code.baekjoon.bfs.ㅂ11123양무리;
+package code.baekjoon.bfs.q11123양무리.본인;
 
 
 import java.util.LinkedList;
