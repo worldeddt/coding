@@ -22,10 +22,10 @@ public class Main {
         sc.close();
     }
 
-    public static void back(int start, int depth) {
+    public static void back(int start, int depth) { //1
 
         if (depth == M) {
-            for (int num : sequence) {
+            for (int num : sequence) { // 1 1, 1 2, 1 3 ..
                 System.out.print(num + " ");
             }
             System.out.println();
@@ -33,7 +33,7 @@ public class Main {
         }
 
         for (int i = start; i<=N; i++) {
-            sequence[depth] = i;
+            sequence[depth] = i; //[1] = 1, 2, 3, 4
             back(i, depth + 1);
         }
     }
